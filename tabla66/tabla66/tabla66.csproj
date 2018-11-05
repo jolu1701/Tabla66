@@ -160,6 +160,7 @@
     <Compile Include="App_Start\RouteConfig2.cs" />
     <Compile Include="Controllers\ChannelVMController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShowsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +248,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ChannelVM\Index.cshtml" />
+    <Content Include="Views\Shows\Create.cshtml" />
+    <Content Include="Views\Shows\Delete.cshtml" />
+    <Content Include="Views\Shows\Details.cshtml" />
+    <Content Include="Views\Shows\Edit.cshtml" />
+    <Content Include="Views\Shows\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
