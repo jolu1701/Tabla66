@@ -19,7 +19,7 @@ namespace tabla66.Controllers
                                    join c in tb.Channel on s.Channel_id equals c.Id
                                    select new { s.Title, c.Channel1, s.Info, s.Start_time, s.Duration }).ToList();
 
-            foreach (var v in CSList)
+            foreach (var v in channelshowlist)
             {
                 ChannelShowsVM item = new ChannelShowsVM();
                 item.Title = v.Title;
