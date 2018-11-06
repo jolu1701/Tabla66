@@ -1,0 +1,486 @@
+@font-face {
+	font-family: comfortaalight;
+	src: url(fonts/comfortaalight.ttf);
+}
+
+*{
+                margin: 0;
+                border: 0;
+                padding: 0;
+            }
+
+body {
+	background-color: white;	
+	position: absolute;
+}
+
+
+/* ###########   HEADER ################### */
+
+
+header {
+	Background: #e7e7e7ff;
+	top: 0;	
+	height: 200px;
+	width: 100%;
+	overflow: hidden;
+}
+#hdiv1 {
+	height: 160px;
+	padding: 20px 0;
+	width: 30%;
+	float: left;
+}
+
+#hdiv1 h1{
+	width: 100%;
+	font-size: 6vw;
+	text-align: center;
+	font-family: "comfortaalight", arial;
+	color: #666666;
+	border-bottom-width: 100%;
+	border-bottom: 10px solid;
+	border-image: linear-gradient(to right, #fceb00ff 16.6%, #68c9f4ff 16.6%, #68c9f4ff 33.2%, #b6d307ff 33.2%, #b6d307ff 49.8%, #db37a7ff 49.8%, #db37a7ff 66.4%, #fa0100ff 66.4%, #fa0100ff 83%, #0151c0ff 83%) 5;
+}
+
+#hdiv1 p{
+	width: 100%;
+	text-align: center;
+	color: #666666;
+	font-size: 30px;
+	font-family: 'montserrat', arial;
+}
+
+#hdiv2 {
+	width: 70%;
+	height: 200px;	
+	float: left;
+	position: relative;
+	opacity: 0.7;
+}
+
+#slider{
+	width: 100%;
+	overflow: hidden;
+}
+
+#stextcontainer {
+	position: absolute;
+	width: 100%;
+	top: 50px;
+	font-family: 'montserrat', arial;
+	color: white;
+	background: rgb(204, 204, 204); 
+	background: rgba(0, 0, 0, 0.7);
+	padding: 5px 2%;
+	text-align: center;
+}
+
+#stextcontainer h3{
+	letter-spacing: 10px;
+	font-size: 40px;
+
+}
+
+#stextcontainer p{
+	font-size: 20px;
+	letter-spacing: 5px;	
+}
+
+#hdiv2:hover {
+	opacity: 1.0;
+}
+
+
+h1{
+	color: white;
+}
+
+#h {
+	
+}
+
+
+/* ###########   NAV OCH SÖK ################### */
+
+
+nav {
+	background: #e7e7e7ff;
+	height: 40px;
+	margin: 10px 0;
+	list-style-type: none;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}	
+
+li {
+	float: left;
+	text-align: center;
+	padding: 9px 5%;
+}
+
+li a {
+	font-size: 20px;
+	color: #666666;
+	font-family: "comfortaalight";
+}
+
+.active
+{
+	color: #ffffff;
+}
+
+nav li:hover {
+	background-color: #fafafaff;
+}
+
+.ui-widget{
+	position: absolute;
+	border: 1px solid #e7e7e7ff;
+	height: auto;
+	width: 50px;
+	text-align: left;
+	color: #666666;
+	font-family: 'montserrat', arial;
+	font-size: 15px; 
+}
+
+.ui-helper-hidden-accessible { 
+	display:none; 
+}
+
+#searchbar {
+	outline: none;
+	padding: 5px 10px 5px 30px;
+	border: 1px solid #ccc;
+	border-radius: 20px;
+	width: 220px;
+	margin: 2px;
+	font-size: 15px;
+	background: #ffffff url("image/searchicon.png") no-repeat 10px center;
+	height: 35px;
+	font-family: 'montserrat', arial;
+	display: inline-block;
+}
+
+#searchbutton {
+	background-color: #666666;
+	color: white;
+	font-family: 'montserrat', arial;
+	padding: 10px;
+}
+
+#searchbar:focus {
+	width: 220px;
+	border-color: #68c9f4ff;
+}
+
+.popup{
+	background-color: #e7e7e7ff;
+	padding: 20px 20px;
+	width: 10%;
+	float: right;
+	margin: 5px 6%;
+	border: 2px solid #68c9f4ff;
+	border-radius: 20px;
+	font-family: 'montserrat', arial;
+	visibility: hidden;
+}
+
+/* ###########   ARTICLE MED TABLÅER ################### */
+
+
+article {
+	margin: 50px 50px;
+	overflow: hidden;
+}
+
+.tablediv {
+	float left;
+	margin: 20px 20px;
+	width: 30%;
+	display: inline-block;
+}
+
+article div h3 {
+	font-family: "comfortaalight";
+	font-size: 20px;
+}
+
+.channelicon {
+	height: 35px;	
+	width: 35px;
+	vertical-align: middle;
+}
+
+table {
+	height: 100%;
+	border-left-width: 4px;
+	border-left-color: #999999ff;
+	border-left-style: solid;
+	text-align: left;
+	font-family: 'montserrat', arial;
+	font-size: 15px;
+	color: #666666ff;
+}
+
+th {
+	padding: 2px 2px;
+	vertical-align: top;
+}
+
+.div::after {
+    content: "";
+clear:both;
+    display: table;
+}
+
+
+/* ###########   FOOTERS ################### */
+
+
+footer {
+	background-color: #e7e7e7ff;
+	color: #999999ff;
+	font-family: 'montserrat', arial;
+}
+
+.footerlink {
+	float: left;
+	width: 100%;
+	text-align: left;
+}
+
+.footerlink a{
+	font-family: 'montserrat', arial;
+	color: #999999ff;
+	font-size: 16px;
+}
+
+.footerlink:hover{
+	color: white;
+}
+
+#footer1 {
+	height: 180px;
+}
+
+#footer2{
+	text-align: center;
+}
+
+.footerdivs {
+	float: left;
+	margin: 20px 5% 20px 5%;
+	width: 40%;	
+}
+
+/* ###########  ASIDE, FILMER OCH SERIER  ################### */
+
+
+aside {
+	height: 600px;
+	width: 10%;
+	position: absolute;
+	background-color: #e7e7e7ff;
+	border: 10px #e7e7e7ff;
+	border-radius: 10px;
+}
+
+.movienav {
+	float: none;
+	display: block;
+}
+
+.movienav li {
+	width: 85%;
+	margin: 5px;
+}
+
+.articlemovieshow {
+	margin: 50px 0px 50px 20%;
+}
+
+.movie {
+	float: left;
+	display: block;
+	border-top: 2px solid grey;
+	width: 40%;
+	position: relative;
+	margin: 3% 3% 3% 3%;
+}
+
+.movie h5{
+	color: grey;
+	font-family: 'montserrat', arial;
+	letter-spacing: 2px;
+}
+
+.movieimg {
+	height: 200px;
+	width: 300px;
+	float: left;
+	padding: 0px 10px 0px 0px;
+}
+
+.movie p {
+	font-family: 'montserrat', arial;
+}
+
+
+
+/* ###########  OM OSS ################### */
+
+
+#omoss {
+	padding: 2% 8%;
+	width: 28%;
+	float: left;
+}
+
+#omoss h2 {
+	font-family: 'montserrat', arial;
+	font-size: 30px;
+	text-align: center;
+	border-bottom: 2px solid grey;
+	color: #666666;
+}
+
+#omossimg {
+	width: 100%;
+	margin: 10px 0px 0px;
+}
+
+#omoss p {
+	font-family: 'montserrat', arial;
+	margin: 10px 0px;
+}
+
+/* ############ KALENDER ##################### */
+
+#asidecalendar {
+	border-radius: 3px;
+	height: auto;
+	width: 300px;
+	margin: 0;
+	background-color: #e7e7e7ff;
+	position: static;
+	float: left;
+}
+
+#month {
+	color: #666666;
+	width: 100%;
+	font-family: 'montserrat', arial;
+	position: relative;	
+	padding: 40px 0px 70px 0px;
+}
+
+#previous {
+	float: left;
+	
+}
+
+#next {
+	float: right;
+}
+
+#monthtitle {
+	letter-spacing: 2px;
+	float:none;
+	text-transform: uppercase;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+.days {
+	font-size: 17px;
+	padding: 10px 0 10px 0px;
+	margin: 0;
+	font-family: 'montserrat', arial;
+}
+
+.days li {
+	width: 13.6%;
+	display: inline-block;
+	text-align: center;
+	padding: 0;
+}
+
+
+.daynumbers li {
+	display: inline-block;
+	width: 13.6%;
+	padding: 8px 0px 8px 0px;
+	font-size: 17px;
+	text-align: center;
+	font-family: 'montserrat', arial;
+}
+
+.selectedday{
+	background-color: white;
+}
+
+
+/* ############ KONTAKFORMULÄR ##################### */
+
+
+#contactlink {
+	padding: 0px;
+	
+}
+
+#contactlink a{
+	font-family: 'montserrat', arial;
+	font-size: 16px;
+	color: #999999ff;
+}
+
+#contactform {
+	font-family: 'montserrat', arial;
+	font-size: 20px;
+	text-align: center;
+	padding:2% 0 2% 0;
+}
+
+#contact{
+	padding: 30px;
+	display: block;
+	float: none;
+	
+}
+
+#contact p{
+}
+
+.d {
+	display: block;
+	float: none;
+	height: auto;
+	margin: 0px 0px 20px 0px;
+}
+
+.help-block {
+	display: block;
+	float: none;
+	font-size: 15px;
+	color: red;
+}
+
+.contactinfo {
+	border: 2px solid #e7e7e7ff;
+	font-size: 20px;
+}
+
+.message {
+	width: 20%;
+	height: 300px;
+	text-align: top;
+}

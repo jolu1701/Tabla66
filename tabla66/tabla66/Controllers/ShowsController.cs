@@ -16,8 +16,8 @@ namespace tabla66.Controllers
 
         // GET: Shows
         public ActionResult Index()
-        {
-            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time); 
+        {            
+            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time);
             return View(show);
         }
 
