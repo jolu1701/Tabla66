@@ -17,16 +17,8 @@ namespace tabla66.Controllers
         // GET: Shows
         public ActionResult Index()
         {
-            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre);
-            List<Show> dashows = show.ToList();            
-            foreach (var item in show)
-            {
-                if(item.Channel_id>1)
-                {
-                    dashows.Remove(item);
-                }
-            }
-            return View(dashows);
+            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time); 
+            return View(show);
         }
 
         // GET: Shows/Details/5
