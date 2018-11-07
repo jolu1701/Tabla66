@@ -239,6 +239,18 @@ clear:both;
     display: table;
 }
 
+.passedshow {
+    font-style: italic;
+    color: yellow;
+    background-color: red;
+}
+
+.ongoingshow {
+    font-weight: bold;
+    color: green;
+    background-color: blue;
+}
+
 
 /* ###########   FOOTERS ################### */
 
