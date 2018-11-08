@@ -14,6 +14,12 @@ namespace tabla66.Models
     
     public partial class Show
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Show()
+        {
+            this.News = new HashSet<News>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public Nullable<int> Channel_id { get; set; }
@@ -24,5 +30,7 @@ namespace tabla66.Models
     
         public virtual Channel Channel { get; set; }
         public virtual Genre Genre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<News> News { get; set; }
     }
 }

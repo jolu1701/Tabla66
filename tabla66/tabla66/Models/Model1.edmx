@@ -19,6 +19,16 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Genre" Type="nchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Text" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="Image" Type="image" Nullable="false" />
+          <Property Name="Show_id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Show">
           <Key>
             <PropertyRef Name="Id" />
@@ -31,6 +41,34 @@
           <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
           <Property Name="Info" Type="nchar" MaxLength="300" Nullable="false" />
         </EntityType>
+        <EntityType Name="UC">
+          <Key>
+            <PropertyRef Name="fk_user_id" />
+          </Key>
+          <Property Name="fk_user_id" Type="int" Nullable="false" />
+          <Property Name="fk_channel_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="fk">
+          <End Role="Show" Type="Self.Show" Multiplicity="1" />
+          <End Role="News" Type="Self.News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Show">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="Show_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Shows_ToTable fk_channel">
           <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
           <End Role="Show" Type="Self.Show" Multiplicity="*" />
@@ -55,10 +93,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UC" Type="Self.UC" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UC">
+              <PropertyRef Name="fk_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1" />
+          <End Role="UC" Type="Self.UC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UC">
+              <PropertyRef Name="fk_channel_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="tablanModelStoreContainer">
           <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Show" EntityType="Self.Show" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UC" EntityType="Self.UC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk" Association="Self.fk">
+            <End Role="Show" EntitySet="Show" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
           <AssociationSet Name="FK_Shows_ToTable fk_channel" Association="Self.FK_Shows_ToTable fk_channel">
             <End Role="Channel" EntitySet="Channel" />
             <End Role="Show" EntitySet="Show" />
@@ -66,6 +135,14 @@
           <AssociationSet Name="FK_Shows_ToTable fk_genre" Association="Self.FK_Shows_ToTable fk_genre">
             <End Role="Genre" EntitySet="Genre" />
             <End Role="Show" EntitySet="Show" />
+          </AssociationSet>
+          <AssociationSet Name="fk1" Association="Self.fk1">
+            <End Role="User" EntitySet="User" />
+            <End Role="UC" EntitySet="UC" />
+          </AssociationSet>
+          <AssociationSet Name="fk2" Association="Self.fk2">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="UC" EntitySet="UC" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -80,6 +157,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Channel1" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Show" Relationship="Self.FK_Shows_ToTable_fk_channel" FromRole="Channel" ToRole="Show" />
+          <NavigationProperty Name="User" Relationship="Self.UC" FromRole="Channel" ToRole="User" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
@@ -88,6 +166,17 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Genre1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Show" Relationship="Self.FK_Shows_ToTable_fk_genre" FromRole="Genre" ToRole="Show" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Show_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Show" Relationship="Self.fk" FromRole="News" ToRole="Show" />
         </EntityType>
         <EntityType Name="Show">
           <Key>
@@ -102,6 +191,17 @@
           <Property Name="Info" Type="String" MaxLength="300" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Channel" Relationship="Self.FK_Shows_ToTable_fk_channel" FromRole="Show" ToRole="Channel" />
           <NavigationProperty Name="Genre" Relationship="Self.FK_Shows_ToTable_fk_genre" FromRole="Show" ToRole="Genre" />
+          <NavigationProperty Name="News" Relationship="Self.fk" FromRole="Show" ToRole="News" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Channel" Relationship="Self.UC" FromRole="User" ToRole="Channel" />
         </EntityType>
         <Association Name="FK_Shows_ToTable_fk_channel">
           <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
@@ -127,10 +227,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="tablanEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="fk">
+          <End Role="Show" Type="Self.Show" Multiplicity="1" />
+          <End Role="News" Type="Self.News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Show">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="Show_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UC">
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
+        </Association>
+        <EntityContainer Name="tablanEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Channel" EntityType="Self.Channel" />
           <EntitySet Name="Genre" EntityType="Self.Genre" />
+          <EntitySet Name="News" EntityType="Self.News" />
           <EntitySet Name="Show" EntityType="Self.Show" />
+          <EntitySet Name="User" EntityType="Self.User" />
           <AssociationSet Name="FK_Shows_ToTable_fk_channel" Association="Self.FK_Shows_ToTable_fk_channel">
             <End Role="Channel" EntitySet="Channel" />
             <End Role="Show" EntitySet="Show" />
@@ -139,13 +257,21 @@
             <End Role="Genre" EntitySet="Genre" />
             <End Role="Show" EntitySet="Show" />
           </AssociationSet>
+          <AssociationSet Name="fk" Association="Self.fk">
+            <End Role="Show" EntitySet="Show" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="UC" Association="Self.UC">
+            <End Role="User" EntitySet="User" />
+            <End Role="Channel" EntitySet="Channel" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="tablanModelStoreContainer" CdmEntityContainer="tablanEntities">
+        <EntityContainerMapping StorageEntityContainer="tablanModelStoreContainer" CdmEntityContainer="tablanEntities1">
           <EntitySetMapping Name="Channel">
             <EntityTypeMapping TypeName="tablanModel.Channel">
               <MappingFragment StoreEntitySet="Channel">
@@ -162,6 +288,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="tablanModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Show_id" ColumnName="Show_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Show">
             <EntityTypeMapping TypeName="tablanModel.Show">
               <MappingFragment StoreEntitySet="Show">
@@ -175,6 +312,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="tablanModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UC" TypeName="tablanModel.UC" StoreEntitySet="UC">
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="fk_user_id" />
+            </EndProperty>
+            <EndProperty Name="Channel">
+              <ScalarProperty Name="Id" ColumnName="fk_channel_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

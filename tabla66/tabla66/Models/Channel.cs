@@ -18,6 +18,7 @@ namespace tabla66.Models
         public Channel()
         {
             this.Show = new HashSet<Show>();
+            this.User = new HashSet<User>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace tabla66.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Show> Show { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> User { get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace tabla66.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class tablanEntities : DbContext
+    public partial class tablanEntities1 : DbContext
     {
-        public tablanEntities()
-            : base("name=tablanEntities")
+        public tablanEntities1()
+            : base("name=tablanEntities1")
         {
         }
     
@@ -27,6 +27,8 @@ namespace tabla66.Models
     
         public virtual DbSet<Channel> Channel { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
+        public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Show> Show { get; set; }
+        public virtual DbSet<User> User { get; set; }
     }
 }

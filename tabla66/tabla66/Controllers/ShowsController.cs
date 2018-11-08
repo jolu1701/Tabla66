@@ -12,7 +12,7 @@ namespace tabla66.Controllers
 {
     public class ShowsController : Controller
     {
-        private tablanEntities db = new tablanEntities();
+        private tablanEntities1 db = new tablanEntities1();
 
         // GET: Shows of today or requested days ahead
         public ActionResult Index(int? daysAhead)
