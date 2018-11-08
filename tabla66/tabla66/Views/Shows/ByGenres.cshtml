@@ -1,0 +1,62 @@
+﻿@model IEnumerable<tabla66.Models.Show>
+
+@{
+    ViewBag.Title = "ByGenres";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<p>
+    @{string genre = "";
+        string date = "";
+        foreach (var item in Model)
+        {
+            genre = item.Genre.Genre1;
+            date = item.Start_time.Date.ToString("yyyy-MM-dd");
+        }
+        @genre;
+        @date;
+    }
+
+</p>
+@for (int i = 0; i < Model.Select(m => m.Channel_id).Distinct().Count(); i++)
+{
+<div class="tablediv">
+    <h3>Kanal @(i+1)</h3>
+    <table class="table">       
+
+        @foreach (var item in Model)
+        {
+            var className = "";
+            if (item.Start_time + item.Duration < DateTime.Now)
+            { className = "passedshow"; }
+            else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
+            { className = "ongoingshow"; }
+            else
+            { className = null; }
+
+
+            if (item.Channel_id == i + 1)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Start_time.TimeOfDay)
+                    </td>
+                    <td class="@className">                        
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>                    
+                </tr>
+            }
+        }
+    </table>
+</div>
+}

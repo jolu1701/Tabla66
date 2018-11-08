@@ -14,12 +14,22 @@ namespace tabla66.Controllers
     {
         private tablanEntities db = new tablanEntities();
 
-        // GET: Shows
+        // GET: Shows of today or requested days ahead
         public ActionResult Index(int? daysAhead)
         {
             if(!daysAhead.HasValue)
                 daysAhead = 0;
             var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Start_time.Day==DateTime.Now.Day+daysAhead);
+            return View(show);
+        }
+
+        public ActionResult ByGenres(int? reqGenreId, int? daysAhead)
+        {
+            if (!reqGenreId.HasValue)
+                reqGenreId = 1;
+            if (!daysAhead.HasValue)
+                daysAhead = 0;
+            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Genre_id==reqGenreId && s.Start_time.Day == DateTime.Now.Day + daysAhead);
             return View(show);
         }
 
