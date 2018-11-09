@@ -1,20 +1,18 @@
-
 .tablådiv {
-    width: 300px;
-    background-color: yellow;
+    width:300px;
+    float: left;
+    background-color: gold;
 }
+
 .tablå {
     height: 100%;
-    width: 100%;
     border-left-width: 4px;
     border-left-color: #999999ff;
     border-left-style: solid;
     text-align: left;
     font-family: 'montserrat', arial;
     font-size: 15px;
-    color: #666666ff;
 }
-
 
 .passedshow {
     font-style: italic;
@@ -28,4 +26,3 @@
     color: black;
     width: 100%;
 }
-
