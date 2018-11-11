@@ -17,10 +17,22 @@ namespace tabla66.Controllers
         // GET: Shows of today or requested days ahead
         public ActionResult Index(int? daysAhead)
         {
-            if(!daysAhead.HasValue)
+            if (!daysAhead.HasValue)
                 daysAhead = 0;
-            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Start_time.Day==DateTime.Now.Day+daysAhead);
-            return View(show);
+
+            if (Session["userId"] != null) //inloggad
+            {
+                User user = db.User.Find(Session["userId"]);
+                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Channel_id == user.Channel.Id && s.Start_time.Day == DateTime.Now.Day + daysAhead);
+                return View(show);
+            }
+
+            else //anonym användare
+            {
+                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Start_time.Day == DateTime.Now.Day + daysAhead);
+                return View(show);
+            }
+            
         }
 
         public ActionResult ByGenres(int? reqGenreId, int? daysAhead)

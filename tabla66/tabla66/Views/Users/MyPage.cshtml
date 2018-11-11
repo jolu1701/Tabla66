@@ -5,6 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>MyPage</h2>
-<p>Här ska man justera sina personliga inställningar</p>
-
+<h2>Välkommen @Model.Name</h2>
+<p>Här kan du ändra dina personliga inställningar</p>
+<button type="button" onclick="location.href='@Url.Action("Logout", "Users")'">Logga ut</button>

@@ -33,7 +33,7 @@ namespace tabla66.Controllers
 
                 else if(userLogin==null)
                 {
-                    return View();
+                    return RedirectToAction("Login", "Users");
                 }
             }
 
@@ -47,7 +47,16 @@ namespace tabla66.Controllers
 
         public ActionResult MyPage()
         {
-            return View();
+            if (ValidateUser.IsUserValid())
+            {
+                User user = db.User.Find(Session["userId"]);
+                return View(user);
+            }
+
+            else
+            {
+                return RedirectToAction("Index", "Shows");
+            }
         }
 
         public ActionResult Logout()
