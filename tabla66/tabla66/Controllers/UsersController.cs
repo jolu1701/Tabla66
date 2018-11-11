@@ -28,7 +28,7 @@ namespace tabla66.Controllers
                 {
                     Session["userName"] = userLogin.Name;
                     Session["userId"] = userLogin.Id;
-                    return RedirectToAction("Dashboard", "AdminPanel");
+                    return RedirectToAction("MyPage", "Users");
                 }
 
                 else if(userLogin==null)
@@ -45,10 +45,15 @@ namespace tabla66.Controllers
             return View();
         }
 
+        public ActionResult MyPage()
+        {
+            return View();
+        }
+
         public ActionResult Logout()
         {
             Session.Abandon();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Shows");
         }
 
 

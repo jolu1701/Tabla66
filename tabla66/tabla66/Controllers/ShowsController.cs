@@ -29,10 +29,10 @@ namespace tabla66.Controllers
                 reqGenreId = 1;
             if (!daysAhead.HasValue)
                 daysAhead = 0;
-            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Genre_id==reqGenreId && s.Start_time.Day == DateTime.Now.Day + daysAhead);
+            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Start_time).ThenBy(s => s.Channel_id).Where(s => s.Genre_id==reqGenreId && s.Start_time.Day == DateTime.Now.Day + daysAhead);
             return View(show);
         }
-
+        
         // GET: Shows/Details/5
         public ActionResult Details(int? id)
         {

@@ -5,16 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-
-
-
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
 <p>
     @{string genre = "";
         string date = "";
@@ -28,10 +18,8 @@
     }
 
 </p>
-@for (int i = 0; i < Model.Select(m => m.Channel_id).Distinct().Count(); i++)
-{
+
 <div class="tablediv">
-    <h3>Kanal @(i+1)</h3>
     <table class="table">       
 
         @foreach (var item in Model)
@@ -42,21 +30,21 @@
             else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
             { className = "ongoingshow"; }
             else
-            { className = null; }
-
-
-            if (item.Channel_id == i + 1)
-            {
-                <tr>
+            { className = null; }   
+            
+            <tr class="@className">
                     <td>
                         @Html.DisplayFor(modelItem => item.Start_time.TimeOfDay)
                     </td>
-                    <td class="@className">                        
+                    <td>                        
                         @Html.DisplayFor(modelItem => item.Title)
-                    </td>                    
-                </tr>
-            }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Channel.Channel1)
+                    </td>
+                    
+            </tr>
         }
     </table>
 </div>
-}
+

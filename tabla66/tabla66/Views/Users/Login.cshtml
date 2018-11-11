@@ -6,8 +6,26 @@
 }
 
 <div class="module module-login span4 offset4">
-    <form class=""
-
-
-
+    <form class="form-vertical" action="@Url.Action("Index")" method="post">
+        <div class="module-body">
+            <div class="control-group">
+                <div class="controls row-fluid">
+                    <input class="span12" type="text" name="userName" placeholder="Username" />
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls row-fluid">
+                    <input class="span12" type="password" name="password" placeholder="Password" />
+                </div>
+            </div>
+            <div class="module-foot">
+                <div class="control-group">
+                    <div class="controls clearfix">
+                        <button type="submit" class="btn btn-primary pull-right" value="Login" name="loginBtn">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+        
