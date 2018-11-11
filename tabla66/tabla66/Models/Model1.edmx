@@ -26,7 +26,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="Text" Type="nchar" MaxLength="255" Nullable="false" />
-          <Property Name="Image" Type="image" Nullable="false" />
+          <Property Name="Image" Type="nchar" MaxLength="100" />
           <Property Name="Show_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Show">
@@ -56,6 +56,7 @@
           <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="fk">
           <End Role="Show" Type="Self.Show" Multiplicity="1" />
@@ -174,7 +175,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="Show_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Show" Relationship="Self.fk" FromRole="News" ToRole="Show" />
         </EntityType>
@@ -201,6 +202,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Channel" Relationship="Self.UC" FromRole="User" ToRole="Channel" />
         </EntityType>
         <Association Name="FK_Shows_ToTable_fk_channel">
@@ -243,7 +245,7 @@
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
         </Association>
-        <EntityContainer Name="tablanEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="tablanEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Channel" EntityType="Self.Channel" />
           <EntitySet Name="Genre" EntityType="Self.Genre" />
           <EntitySet Name="News" EntityType="Self.News" />
@@ -271,7 +273,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="tablanModelStoreContainer" CdmEntityContainer="tablanEntities1">
+        <EntityContainerMapping StorageEntityContainer="tablanModelStoreContainer" CdmEntityContainer="tablanEntities2">
           <EntitySetMapping Name="Channel">
             <EntityTypeMapping TypeName="tablanModel.Channel">
               <MappingFragment StoreEntitySet="Channel">
@@ -319,6 +321,7 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

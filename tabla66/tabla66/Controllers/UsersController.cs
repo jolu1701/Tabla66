@@ -10,112 +10,139 @@ using tabla66.Models;
 
 namespace tabla66.Controllers
 {
-    public class NewsController : Controller
+    public class UsersController : Controller
     {
         private tablanEntities2 db = new tablanEntities2();
 
-        // GET: News
+        // GET: Users
         public ActionResult Index()
         {
-            var news = db.News.Include(n => n.Show);
-            return View(news.ToList());
+            string btnClick = Request["loginBtn"];
+            if (btnClick == "Login")
+            {
+                string userName = Request["userName"];
+                string password = Request["password"];
+                var userLogin = (from data in db.User where data.Name == userName && data.Password == password select data).FirstOrDefault();
+
+                if(userLogin != null)
+                {
+                    Session["userName"] = userLogin.Name;
+                    Session["userId"] = userLogin.Id;
+                    return RedirectToAction("Dashboard", "AdminPanel");
+                }
+
+                else if(userLogin==null)
+                {
+                    return View();
+                }
+            }
+
+            return View();
         }
 
-        // GET: News/Details/5
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
+
+
+        // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            News news = db.News.Find(id);
-            if (news == null)
+            User user = db.User.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(news);
+            return View(user);
         }
 
-        // GET: News/Create
+        // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.Show_id = new SelectList(db.Show, "Id", "Title");
             return View();
         }
 
-        // POST: News/Create
+        // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text,Image,Show_id")] News news)
+        public ActionResult Create([Bind(Include = "Id,Name,Password,Email")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.News.Add(news);
+                db.User.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Show_id = new SelectList(db.Show, "Id", "Title", news.Show_id);
-            return View(news);
+            return View(user);
         }
 
-        // GET: News/Edit/5
+        // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            News news = db.News.Find(id);
-            if (news == null)
+            User user = db.User.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Show_id = new SelectList(db.Show, "Id", "Title", news.Show_id);
-            return View(news);
+            return View(user);
         }
 
-        // POST: News/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text,Image,Show_id")] News news)
+        public ActionResult Edit([Bind(Include = "Id,Name,Password,Email")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(news).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Show_id = new SelectList(db.Show, "Id", "Title", news.Show_id);
-            return View(news);
+            return View(user);
         }
 
-        // GET: News/Delete/5
+        // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            News news = db.News.Find(id);
-            if (news == null)
+            User user = db.User.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(news);
+            return View(user);
         }
 
-        // POST: News/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            News news = db.News.Find(id);
-            db.News.Remove(news);
+            User user = db.User.Find(id);
+            db.User.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

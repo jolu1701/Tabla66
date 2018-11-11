@@ -17,7 +17,7 @@ namespace tabla66.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public int Show_id { get; set; }
     
         public virtual Show Show { get; set; }

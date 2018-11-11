@@ -6,7 +6,13 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+    @{
+        var culture = new System.Globalization.CultureInfo("sv-SV");
+        var twoDaysAhead = culture.DateTimeFormat.GetDayName(DateTime.Now.AddDays(2).DayOfWeek);
+        var threeDaysAhead = culture.DateTimeFormat.GetDayName(DateTime.Now.AddDays(3).DayOfWeek);
+        var fourDaysAhead = culture.DateTimeFormat.GetDayName(DateTime.Now.AddDays(4).DayOfWeek);
+            }
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
@@ -20,10 +26,16 @@
                     <a class="nav-link" href="#">Idag <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Imorgon</a>
+                    <a class="nav-link" href="http://localhost:37863/Shows/Index?daysAhead=1">Imorgon</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Söndag</a>
+                    <a class="nav-link" href="http://localhost:37863/Shows/Index?daysAhead=2">@twoDaysAhead</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:37863/Shows/Index?daysAhead=3">@threeDaysAhead</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:37863/Shows/Index?daysAhead=4">@fourDaysAhead</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
