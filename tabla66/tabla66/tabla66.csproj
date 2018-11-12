@@ -317,6 +317,7 @@
     <Content Include="Views\Users\orginal_Index.cshtml" />
     <Content Include="Views\Users\MyPage.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Shared\_Carousel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -97,6 +97,12 @@ namespace tabla66.Controllers
         {
             if (ModelState.IsValid)
             {
+                string fileName = Path.GetFileNameWithoutExtension(news.Imagefile.FileName);
+                string extension = Path.GetExtension(news.Imagefile.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                news.Image = "~/Img/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Img/"), fileName);
+                news.Imagefile.SaveAs(fileName);
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -138,6 +144,11 @@ namespace tabla66.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public PartialViewResult _Carousel ()
+        {
+            var news = db.News.Include(n => n.Show);
+            return PartialView(news.ToList());
         }
     }
 }
