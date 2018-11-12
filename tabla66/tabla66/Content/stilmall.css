@@ -14,6 +14,11 @@
     font-size: 15px;
 }
 
+.kanallogga {
+    max-width: 50px;
+    margin: 10px;
+}
+
 .passedshow {
     font-style: italic;
     text-decoration: line-through;

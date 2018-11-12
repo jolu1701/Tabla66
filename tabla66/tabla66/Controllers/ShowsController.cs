@@ -47,7 +47,15 @@ namespace tabla66.Controllers
             var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Start_time).ThenBy(s => s.Channel_id).Where(s => s.Genre_id==reqGenreId && s.Start_time.Day == DateTime.Now.Day + daysAhead);
             return View(show);
         }
-        
+
+        public ActionResult ByChannel(int? reqChannelId)
+        {
+            if (!reqChannelId.HasValue)
+                reqChannelId = 1;            
+            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Start_time).Where(s => s.Channel_id == reqChannelId && s.Start_time.Day >= DateTime.Now.Day);
+            return View(show);
+        }
+
         // GET: Shows/Details/5
         public ActionResult Details(int? id)
         {
