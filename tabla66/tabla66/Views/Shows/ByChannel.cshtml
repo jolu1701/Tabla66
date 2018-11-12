@@ -1,0 +1,115 @@
+﻿@model IEnumerable<tabla66.Models.Show>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Kanalnamn kanske?</h2>
+
+@{var dates = Model.Select(m => m.Start_time.Date).Distinct();}
+
+        @foreach (var dt in dates)
+        {
+            <div class="tablådiv">
+                <h3>@dt.DayOfWeek</h3>
+                <table class="tablå">
+
+                    @foreach (var item in Model)
+                    {
+                        var className = "";
+                        if (item.Start_time + item.Duration < DateTime.Now)
+                        { className = "passedshow"; }
+                        else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
+                        { className = "ongoingshow"; }
+                        else
+                        { className = null; }
+
+
+                        if (item.Start_time.Date == dt.Date)
+                        {
+                            <tr>
+                                <td type="button" class="btn @className" width="500px" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
+                                    data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
+                                    @{string tid = item.Start_time.ToString("HH:mm");}
+
+                                    @tid
+
+                                    @Html.DisplayFor(modelItem => item.Title)
+
+                                    @Html.DisplayFor(modelItem => item.Genre.Genre1)
+
+                                    @{ if (className == "ongoingshow")
+                                        {
+                                            TimeSpan passedTime = (DateTime.Now - item.Start_time);
+                                            double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
+                                            string progProc = "width:" + progProcent.ToString() + "%";
+                                            <div class="progress" style="width:100%;height:5px">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
+                                                     aria-valuemin="0" aria-valuemax="100" style="50%">
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        }
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-genre"></p>
+                        <p class="modal-showinfo"></p>
+                    </div>
+                    <div class="modal-footer">
+
+                        <p class="modal-duration"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        @section Scripts {
+            <script type="text/javascript">
+                $('#exampleModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var title = button.data('title'); // Extract info from data-* attributes
+                    var showinfo = button.data('showinfo');
+                    var showgenre = button.data('genre');
+                    var duration = button.data('duration')
+                    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                    var modal = $(this);
+                    modal.find('.modal-title').text(title);
+                    modal.find('.modal-genre').text(showgenre);
+                    modal.find('.modal-showinfo').text(showinfo);
+                    modal.find('.modal-duration').text(duration);
+                });
+
+                $('.progress-bar').each(function () {
+                    var min = $(this).attr('aria-valuemin');
+                    var max = $(this).attr('aria-valuemax');
+                    var now = $(this).attr('aria-valuenow');
+                    var siz = (now - min) * 100 / (max - min);
+                    $(this).css('width', siz + '%');
+                });
+            </script>
+
+        }
+

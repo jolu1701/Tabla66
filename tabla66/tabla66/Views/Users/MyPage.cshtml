@@ -6,5 +6,17 @@
 }
 
 <h2>Välkommen @Model.Name</h2>
-<p>Här kan du ändra dina personliga inställningar</p>
+<p>Här kan du markera de kanaler du vill följa</p>
+<div class="kanalväljare">
+    <form class="form-vertical" action="@Url.Action("AddToMyChannels")" method="post">
+        <div class="module-body">
+            <div class="control-group">
+                <div class="controls row-fluid">
+                    <button type="submit" class="btn btn-primary pull-right" value="SVT1" name="SVT1">SVT1</button>
+                    <button type="submit" class="btn btn-primary pull-right" value="SVT2" name="SVT2">SVT2</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <button type="button" onclick="location.href='@Url.Action("Logout", "Users")'">Logga ut</button>
