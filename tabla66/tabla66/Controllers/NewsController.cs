@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using tabla66.Models;
+using System.IO;
 
 namespace tabla66.Controllers
 {
@@ -15,6 +16,7 @@ namespace tabla66.Controllers
         private tablanEntities2 db = new tablanEntities2();
 
         // GET: News
+        [HttpGet]
         public ActionResult Index()
         {
             var news = db.News.Include(n => n.Show);
@@ -37,6 +39,7 @@ namespace tabla66.Controllers
         }
 
         // GET: News/Create
+        
         public ActionResult Create()
         {
             ViewBag.Show_id = new SelectList(db.Show, "Id", "Title");
@@ -48,10 +51,18 @@ namespace tabla66.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text,Image,Show_id")] News news)
+        public ActionResult Create([Bind(Include = "Id,Title,Text,Imagefile,Show_id")] News news)
         {
+            string fileName = Path.GetFileNameWithoutExtension(news.Imagefile.FileName);
+            string extension = Path.GetExtension(news.Imagefile.FileName);
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            news.Image = "~/Img/" + fileName;
+            fileName = Path.Combine(Server.MapPath("~/Img/"), fileName);
+            news.Imagefile.SaveAs(fileName);
+
             if (ModelState.IsValid)
             {
+               
                 db.News.Add(news);
                 db.SaveChanges();
                 return RedirectToAction("Index");
