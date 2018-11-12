@@ -22,8 +22,11 @@ namespace tabla66.Controllers
 
             if (Session["userId"] != null) //inloggad
             {
-                User user = db.User.Find(Session["userId"]);
-                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Channel_id == user.Channel.Id && s.Start_time.Day == DateTime.Now.Day + daysAhead);
+                int userId = Convert.ToInt32(Session["userId"]);
+                User user = (from data in db.User where data.Id == userId select data).FirstOrDefault();
+                var show = (from usr in db.User where user.Id == usr.Id join shw in db.Show on usr.Channel.Id equals shw.Channel.Id select shw).ToList();
+                show = show.Where(s => s.Start_time.Day == DateTime.Now.Day + daysAhead).ToList();
+                show = show.OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).ToList();
                 return View(show);
             }
 

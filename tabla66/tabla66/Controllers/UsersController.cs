@@ -48,15 +48,34 @@ namespace tabla66.Controllers
         public ActionResult MyPage()
         {
             if (ValidateUser.IsUserValid())
-            {
-                User user = db.User.Find(Session["userId"]);
+            {                
+                int userId = Convert.ToInt32(Session["userId"]);
+                User user = (from data in db.User where data.Id == userId select data).FirstOrDefault();
                 return View(user);
             }
 
             else
             {
-                return RedirectToAction("Index", "Shows");
+                return RedirectToAction("Login", "Users");
             }
+        }
+
+        public ActionResult AddToMyChannels()
+        {
+            int userId = Convert.ToInt32(Session["userId"]);
+            User user = (from data in db.User.Include(s => s.Channel) where data.Id == userId select data).FirstOrDefault();
+
+            string btnClick = Request["SVT1"];
+            if (btnClick == "SVT1")
+            {
+                /*var cnl = (from data in db.Channel where data.Id == 1 select data).FirstOrDefault(); //hittar igen nya favoritreklamen och sparar till en var
+                cnl.User.Add(user);
+                db.UC.Add(kanalid, );
+                db.SaveChanges();
+                return RedirectToAction("Index");*/
+            }
+
+            return View();
         }
 
         public ActionResult Logout()
