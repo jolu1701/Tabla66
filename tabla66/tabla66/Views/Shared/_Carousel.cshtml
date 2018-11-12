@@ -1,0 +1,36 @@
+﻿@model IEnumerable<tabla66.Models.News>
+@{ Layout = null; }
+
+@{Boolean first1 = true; }
+@{ Boolean first2 = true;}
+
+<div id="carouselExampleIndicators" class="carousel" data-interval="2000" data-ride="carousel"
+     data-pause="hover">
+
+    <ol class="carousel-indicators">
+
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@( first1 ? "active" : "" )"></li>
+            first1 = false;
+        }
+    </ol>
+
+    <div class="carousel-inner">
+        @foreach (var item in Model)
+        {
+            <div class="carousel-item @( first2 ? "active" : "" )">
+                <img src="@Url.Content(item.Image)" img-responsive d-block w-100">
+                <div class="carousel-caption">
+                    <h3>@item.Title</h3>
+                    <p>@item.Text</p>
+                </div>
+            </div>
+            first2 = false;
+        }
+     </div>
+ </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

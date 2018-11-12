@@ -11,6 +11,7 @@ namespace tabla66.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Web;
     
     public partial class News
     {
@@ -19,7 +20,9 @@ namespace tabla66.Models
         public string Text { get; set; }
         public string Image { get; set; }
         public int Show_id { get; set; }
-    
+        public HttpPostedFileBase Imagefile { get; set; }
         public virtual Show Show { get; set; }
+        
+
     }
 }
