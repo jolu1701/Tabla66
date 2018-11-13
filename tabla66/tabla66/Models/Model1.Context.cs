@@ -13,10 +13,10 @@ namespace tabla66.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class tablanEntities4 : DbContext
+    public partial class tablanEntities8 : DbContext
     {
-        public tablanEntities4()
-            : base("name=tablanEntities4")
+        public tablanEntities8()
+            : base("name=tablanEntities8")
         {
         }
     

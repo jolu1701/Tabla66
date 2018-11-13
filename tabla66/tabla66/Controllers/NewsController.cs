@@ -13,7 +13,7 @@ namespace tabla66.Controllers
 {
     public class NewsController : Controller
     {
-        private tablanEntities4 db = new tablanEntities4();
+        private tablanEntities8 db = new tablanEntities8();
 
         // GET: News
         [HttpGet]

@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c4961efc69af40ffa43e01aa65973b08" Name="Diagram1">
-        <EntityTypeShape EntityType="tablanModel.Channel" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="tablanModel.Genre" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="tablanModel.News" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="tablanModel.Show" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="tablanModel.User" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
-        <AssociationConnector Association="tablanModel.fk_channel" ManuallyRouted="false" />
+      <Diagram DiagramId="6029052866914eff93813f8944116be3" Name="Diagram1">
+        <EntityTypeShape EntityType="tablanModel.Channel" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tablanModel.Genre" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tablanModel.News" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="tablanModel.Show" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="tablanModel.User" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
         <AssociationConnector Association="tablanModel.FK_Shows_ToTable_fk_channel" ManuallyRouted="false" />
         <AssociationConnector Association="tablanModel.FK_Shows_ToTable_fk_genre" ManuallyRouted="false" />
         <AssociationConnector Association="tablanModel.fk" ManuallyRouted="false" />
+        <AssociationConnector Association="tablanModel.UC" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

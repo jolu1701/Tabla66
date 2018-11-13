@@ -12,7 +12,7 @@ namespace tabla66.Controllers
 {
     public class ShowsController : Controller
     {
-        private tablanEntities4 db = new tablanEntities4();
+        private tablanEntities8 db = new tablanEntities8();
 
         // GET: Shows of today or requested days ahead
         public ActionResult Index(int? daysAhead)
@@ -24,7 +24,12 @@ namespace tabla66.Controllers
             {
                 int userId = Convert.ToInt32(Session["userId"]);
                 User user = (from data in db.User where data.Id == userId select data).FirstOrDefault();
-                var show = (from usr in db.User where user.Id == usr.Id join shw in db.Show on usr.Channel.Id equals shw.Channel.Id select shw).ToList();                
+                List<int> kanaler = new List<int>();
+                foreach (var channel in user.Channel)
+                {
+                    kanaler.Add(channel.Id);
+                }
+                var show = (from shw in db.Show where kanaler.Contains(shw.Channel.Id) select shw).ToList();
                 show = show.Where(s => s.Start_time.Day == DateTime.Now.Day + daysAhead).ToList();
                 show = show.OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).ToList();
                 return View(show);

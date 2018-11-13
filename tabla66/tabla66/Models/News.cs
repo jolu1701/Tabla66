@@ -23,5 +23,6 @@ namespace tabla66.Models
     
         public virtual Show Show { get; set; }
         public HttpPostedFileBase Imagefile { get; set; }
+
     }
 }

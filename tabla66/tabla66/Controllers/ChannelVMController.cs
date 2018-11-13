@@ -13,7 +13,7 @@ namespace tabla66.Controllers
         // GET: ChannelVM
         public ActionResult Index()
         {
-            tablanEntities4 tb = new tablanEntities4();
+            tablanEntities8 tb = new tablanEntities8();
             List<ChannelShowsVM> CSList = new List<ChannelShowsVM>();
             var channelshowlist = (from s in tb.Show
                                    join c in tb.Channel on s.Channel_id equals c.Id

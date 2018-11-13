@@ -12,7 +12,7 @@ namespace tabla66.Controllers
 {
     public class UsersController : Controller
     {
-        private tablanEntities4 db = new tablanEntities4();
+        private tablanEntities8 db = new tablanEntities8();
 
         // GET: Users
         public ActionResult Index()
@@ -65,18 +65,16 @@ namespace tabla66.Controllers
             int userId = Convert.ToInt32(Session["userId"]);
             User user = (from data in db.User.Include(s => s.Channel) where data.Id == userId select data).FirstOrDefault();
 
-            string btnClick = Request["SVT1"];
-            if (btnClick == "SVT1")
-            {
-                
-                /*var cnl = (from data in db.Channel where data.Id == 1 select data).FirstOrDefault(); //hittar igen nya favoritreklamen och sparar till en var
-                cnl.User.Add(user);
-                db.UC.Add(kanalid, );
-                db.SaveChanges();
-                return RedirectToAction("Index");*/
-            }
+            string btnClick = Request["AddKanal"];
+            int chanId = Convert.ToInt32(btnClick);
 
-            return View();
+            var cnl = (from data in db.Channel where data.Id == chanId select data).FirstOrDefault(); //hittar igen nya favoritkanalen och sparar till en var
+            if(!db.User.FirstOrDefault(u => u.Id == userId).Channel.Contains(cnl)) 
+                {
+                    db.User.FirstOrDefault(u => u.Id == userId).Channel.Add(cnl); // Så länge kanalen inte finns i användarens favoritlista så sparas den              
+                db.SaveChanges();
+                }
+            return RedirectToAction("Index","Shows");            
         }
 
         public ActionResult Logout()
