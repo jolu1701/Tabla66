@@ -19,6 +19,7 @@ namespace tabla66.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public int Level { get; set; }
+        public Nullable<int> FavChan { get; set; }
     
         public virtual Channel Channel { get; set; }
     }

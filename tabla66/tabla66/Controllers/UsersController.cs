@@ -12,7 +12,7 @@ namespace tabla66.Controllers
 {
     public class UsersController : Controller
     {
-        private tablanEntities2 db = new tablanEntities2();
+        private tablanEntities4 db = new tablanEntities4();
 
         // GET: Users
         public ActionResult Index()
@@ -68,6 +68,7 @@ namespace tabla66.Controllers
             string btnClick = Request["SVT1"];
             if (btnClick == "SVT1")
             {
+                
                 /*var cnl = (from data in db.Channel where data.Id == 1 select data).FirstOrDefault(); //hittar igen nya favoritreklamen och sparar till en var
                 cnl.User.Add(user);
                 db.UC.Add(kanalid, );
@@ -130,7 +131,7 @@ namespace tabla66.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.User.Find(id);
+            User user = (from data in db.User.Include(s => s.Channel) where data.Id == id select data).FirstOrDefault();
             if (user == null)
             {
                 return HttpNotFound();

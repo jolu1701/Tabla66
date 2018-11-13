@@ -41,13 +41,6 @@
           <Property Name="Duration" Type="time" Precision="7" Nullable="false" />
           <Property Name="Info" Type="nchar" MaxLength="300" Nullable="false" />
         </EntityType>
-        <EntityType Name="UC">
-          <Key>
-            <PropertyRef Name="fk_user_id" />
-          </Key>
-          <Property Name="fk_user_id" Type="int" Nullable="false" />
-          <Property Name="fk_channel_id" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -57,6 +50,7 @@
           <Property Name="Password" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="FavChan" Type="int" />
         </EntityType>
         <Association Name="fk">
           <End Role="Show" Type="Self.Show" Multiplicity="1" />
@@ -67,6 +61,18 @@
             </Principal>
             <Dependent Role="News">
               <PropertyRef Name="Show_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="FavChan" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -94,40 +100,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk1">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="UC" Type="Self.UC" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UC">
-              <PropertyRef Name="fk_user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk2">
-          <End Role="Channel" Type="Self.Channel" Multiplicity="1" />
-          <End Role="UC" Type="Self.UC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Channel">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UC">
-              <PropertyRef Name="fk_channel_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="tablanModelStoreContainer">
           <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Show" EntityType="Self.Show" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UC" EntityType="Self.UC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk" Association="Self.fk">
             <End Role="Show" EntitySet="Show" />
             <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="fk_channel" Association="Self.fk_channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
           <AssociationSet Name="FK_Shows_ToTable fk_channel" Association="Self.FK_Shows_ToTable fk_channel">
             <End Role="Channel" EntitySet="Channel" />
@@ -136,14 +121,6 @@
           <AssociationSet Name="FK_Shows_ToTable fk_genre" Association="Self.FK_Shows_ToTable fk_genre">
             <End Role="Genre" EntitySet="Genre" />
             <End Role="Show" EntitySet="Show" />
-          </AssociationSet>
-          <AssociationSet Name="fk1" Association="Self.fk1">
-            <End Role="User" EntitySet="User" />
-            <End Role="UC" EntitySet="UC" />
-          </AssociationSet>
-          <AssociationSet Name="fk2" Association="Self.fk2">
-            <End Role="Channel" EntitySet="Channel" />
-            <End Role="UC" EntitySet="UC" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -157,8 +134,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Channel1" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.fk_channel" FromRole="Channel" ToRole="User" />
           <NavigationProperty Name="Show" Relationship="Self.FK_Shows_ToTable_fk_channel" FromRole="Channel" ToRole="Show" />
-          <NavigationProperty Name="User" Relationship="Self.UC" FromRole="Channel" ToRole="User" />
         </EntityType>
         <EntityType Name="Genre">
           <Key>
@@ -203,8 +180,21 @@
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Channel" Relationship="Self.UC" FromRole="User" ToRole="Channel" />
+          <Property Name="FavChan" Type="Int32" />
+          <NavigationProperty Name="Channel" Relationship="Self.fk_channel" FromRole="User" ToRole="Channel" />
         </EntityType>
+        <Association Name="fk_channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="FavChan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Shows_ToTable_fk_channel">
           <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
           <End Role="Show" Type="Self.Show" Multiplicity="*" />
@@ -241,16 +231,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UC">
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <End Role="Channel" Type="Self.Channel" Multiplicity="0..1" />
-        </Association>
-        <EntityContainer Name="tablanEntities2" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="tablanEntities4" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Channel" EntityType="Self.Channel" />
           <EntitySet Name="Genre" EntityType="Self.Genre" />
           <EntitySet Name="News" EntityType="Self.News" />
           <EntitySet Name="Show" EntityType="Self.Show" />
           <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="fk_channel" Association="Self.fk_channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
           <AssociationSet Name="FK_Shows_ToTable_fk_channel" Association="Self.FK_Shows_ToTable_fk_channel">
             <End Role="Channel" EntitySet="Channel" />
             <End Role="Show" EntitySet="Show" />
@@ -263,17 +253,13 @@
             <End Role="Show" EntitySet="Show" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
-          <AssociationSet Name="UC" Association="Self.UC">
-            <End Role="User" EntitySet="User" />
-            <End Role="Channel" EntitySet="Channel" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="tablanModelStoreContainer" CdmEntityContainer="tablanEntities2">
+        <EntityContainerMapping StorageEntityContainer="tablanModelStoreContainer" CdmEntityContainer="tablanEntities4">
           <EntitySetMapping Name="Channel">
             <EntityTypeMapping TypeName="tablanModel.Channel">
               <MappingFragment StoreEntitySet="Channel">
@@ -322,17 +308,10 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="FavChan" ColumnName="FavChan" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="UC" TypeName="tablanModel.UC" StoreEntitySet="UC">
-            <EndProperty Name="User">
-              <ScalarProperty Name="Id" ColumnName="fk_user_id" />
-            </EndProperty>
-            <EndProperty Name="Channel">
-              <ScalarProperty Name="Id" ColumnName="fk_channel_id" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
