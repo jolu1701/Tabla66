@@ -15,60 +15,66 @@
 
 @{var channels = Model.Select(m => m.Channel).Distinct();}
 
-@foreach (var cl in channels)
-{
-    <div class="tablådiv">
-        @{string kanalbild = "/Img/kanal" + (cl.Id).ToString() + ".png";}
-        <a href="http://localhost:37863/Shows/ByChannel?reqChannelId=@cl.Id">
-        <img border="0" class="kanallogga" alt="@kanalbild" src="@kanalbild">
-        </a>
+<div class="row">
 
-        <table class="tablå">
+    @foreach (var cl in channels)
+    {
+        <div class="col-md-4 border-left">
+            @{string kanalbild = "/Img/kanal" + (cl.Id).ToString() + ".png";}
+            <a href="http://localhost:37863/Shows/ByChannel?reqChannelId=@cl.Id">
+                <img border="0" class="kanallogga" alt="@kanalbild" src="@kanalbild">
+            </a>
 
-            @foreach (var item in Model)
-            {
-                var className = "";
-                if (item.Start_time + item.Duration < DateTime.Now)
-                { className = "passedshow"; }
-                else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
-                { className = "ongoingshow"; }
-                else
-                { className = null; }
+            <table class="table table-hover" style="cursor:pointer;">
 
-
-                if (item.Channel_id == cl.Id)
+                @foreach (var item in Model)
                 {
-                    <tr>
-                        <td type="button" class="btn @className" width="300px" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
+                    var className = "";
+                    if (item.Start_time + item.Duration < DateTime.Now)
+                    { className = "passedshow"; }
+                    else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
+                    { className = "ongoingshow"; }
+                    else
+                    { className = null; }
+
+
+                    if (item.Channel_id == cl.Id)
+                    {
+                        <tr class="@className" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
                             data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
+                            <td>
 
-                            @{string tid = item.Start_time.ToString("HH:mm");}
+                                @{string tid = item.Start_time.ToString("HH:mm");}
 
-                            @tid
+                                @tid
 
-                            @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
 
-                            @Html.DisplayFor(modelItem => item.Channel.Channel1)
+                                @Html.DisplayFor(modelItem => item.Title)
 
-                            @{ if (className == "ongoingshow")
-                                {
-                                    TimeSpan passedTime = (DateTime.Now - item.Start_time);
-                                    double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
-                                    string progProc = "width:" + progProcent.ToString() + "%";
-                                    <div class="progress" style="width:100%;height:5px">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
-                                             aria-valuemin="0" aria-valuemax="100" style="50%">
+                                @Html.DisplayFor(modelItem => item.Channel.Channel1)
+
+                                @{ if (className == "ongoingshow")
+                                    {
+                                        TimeSpan passedTime = (DateTime.Now - item.Start_time);
+                                        double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
+                                        string progProc = "width:" + progProcent.ToString() + "%";
+                                        <div class="progress" style="width:100%;height:5px">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
+                                                 aria-valuemin="0" aria-valuemax="100" style="50%">
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 }
-                            }
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </table>
-    </div>
-}
+            </table>
+        </div>
+    }
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
