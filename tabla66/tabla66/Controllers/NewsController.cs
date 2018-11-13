@@ -97,12 +97,6 @@ namespace tabla66.Controllers
         {
             if (ModelState.IsValid)
             {
-                string fileName = Path.GetFileNameWithoutExtension(news.Imagefile.FileName);
-                string extension = Path.GetExtension(news.Imagefile.FileName);
-                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                news.Image = "~/Img/" + fileName;
-                fileName = Path.Combine(Server.MapPath("~/Img/"), fileName);
-                news.Imagefile.SaveAs(fileName);
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
