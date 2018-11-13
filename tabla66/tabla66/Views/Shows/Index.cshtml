@@ -91,8 +91,8 @@
                 <p class="modal-showinfo"></p>
             </div>
             <div class="modal-footer">
-
-                <p class="modal-duration"></p>
+                <p>Start kl: </p><p class="modal-starttime"></p>
+                <p>Längd:</p><p class="modal-duration"> h</p>
             </div>
         </div>
     </div>
@@ -106,16 +106,24 @@
         $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var title = button.data('title'); // Extract info from data-* attributes
+            var start = button.data('start_time');
             var showinfo = button.data('showinfo');
             var showgenre = button.data('genre');
-            var duration = button.data('duration')
+            var duration = button.data('duration');
+            var start2 = String(start);
+            var startsub = start2.substring(10, 16);
+            var duration2 = String(duration);
+            var durationsub = duration2.substring(0, 5);
+
+
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this);
             modal.find('.modal-title').text(title);
             modal.find('.modal-genre').text(showgenre);
             modal.find('.modal-showinfo').text(showinfo);
-            modal.find('.modal-duration').text(duration);
+            modal.find('.modal-starttime').text(startsub);
+            modal.find('.modal-duration').text(durationsub);
         });
 
         $('.progress-bar').each(function () {

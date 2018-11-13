@@ -53,6 +53,8 @@ namespace tabla66.Controllers
             if (!reqChannelId.HasValue)
                 reqChannelId = 1;            
             var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Start_time).Where(s => s.Channel_id == reqChannelId && s.Start_time.Day >= DateTime.Now.Day);
+            Channel c = (from channel in db.Channel where channel.Id == reqChannelId select channel).FirstOrDefault();
+            ViewBag.Channel = c.Channel1;
             return View(show);
         }
 

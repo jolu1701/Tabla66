@@ -6,59 +6,61 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Kanalnamn kanske?</h2>
+<h2>@ViewBag.Channel</h2>
 
 @{var dates = Model.Select(m => m.Start_time.Date).Distinct();}
+<div class="row">
+    @foreach (var dt in dates)
+    {
+        <div class="col-md-4 border-left">
+            <h3>@dt.DayOfWeek</h3>
+            <table class="table table-hover">
 
-        @foreach (var dt in dates)
-        {
-            <div class="tablådiv">
-                <h3>@dt.DayOfWeek</h3>
-                <table class="tablå">
+                @foreach (var item in Model)
+                {
+                    var className = "";
+                    if (item.Start_time + item.Duration < DateTime.Now)
+                    { className = "passedshow"; }
+                    else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
+                    { className = "ongoingshow"; }
+                    else
+                    { className = null; }
 
-                    @foreach (var item in Model)
+
+                    if (item.Start_time.Date == dt.Date)
                     {
-                        var className = "";
-                        if (item.Start_time + item.Duration < DateTime.Now)
-                        { className = "passedshow"; }
-                        else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
-                        { className = "ongoingshow"; }
-                        else
-                        { className = null; }
+                        <tr class="@className" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
+                            data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
+                            <td>
+                                @{string tid = item.Start_time.ToString("HH:mm");}
 
+                                @tid
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
 
-                        if (item.Start_time.Date == dt.Date)
-                        {
-                            <tr>
-                                <td type="button" class="btn @className" width="500px" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
-                                    data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
-                                    @{string tid = item.Start_time.ToString("HH:mm");}
+                                @Html.DisplayFor(modelItem => item.Genre.Genre1)
 
-                                    @tid
-
-                                    @Html.DisplayFor(modelItem => item.Title)
-
-                                    @Html.DisplayFor(modelItem => item.Genre.Genre1)
-
-                                    @{ if (className == "ongoingshow")
-                                        {
-                                            TimeSpan passedTime = (DateTime.Now - item.Start_time);
-                                            double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
-                                            string progProc = "width:" + progProcent.ToString() + "%";
-                                            <div class="progress" style="width:100%;height:5px">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
-                                                     aria-valuemin="0" aria-valuemax="100" style="50%">
-                                                </div>
+                                @{ if (className == "ongoingshow")
+                                    {
+                                        TimeSpan passedTime = (DateTime.Now - item.Start_time);
+                                        double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
+                                        string progProc = "width:" + progProcent.ToString() + "%";
+                                        <div class="progress" style="width:100%;height:5px">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
+                                                 aria-valuemin="0" aria-valuemax="100" style="50%">
                                             </div>
-                                        }
+                                        </div>
                                     }
-                                </td>
-                            </tr>
-                        }
+                                }
+                            </td>
+                        </tr>
                     }
-                </table>
-            </div>
-        }
+                }
+            </table>
+        </div>
+    }
+</div>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,8 +77,8 @@
                         <p class="modal-showinfo"></p>
                     </div>
                     <div class="modal-footer">
-
-                        <p class="modal-duration"></p>
+                        <p>Start kl: </p><p class="modal-starttime"></p>
+                        <p>Längd:</p><p class="modal-duration"> h</p>
                     </div>
                 </div>
             </div>
@@ -90,16 +92,24 @@
                 $('#exampleModal').on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget); // Button that triggered the modal
                     var title = button.data('title'); // Extract info from data-* attributes
+                    var start = button.data('start_time');
                     var showinfo = button.data('showinfo');
                     var showgenre = button.data('genre');
-                    var duration = button.data('duration')
+                    var duration = button.data('duration');
+                    var start2 = String(start);
+                    var startsub = start2.substring(10, 16);
+                    var duration2 = String(duration);
+                    var durationsub = duration2.substring(0, 5);
+                
+                    
                     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                     var modal = $(this);
                     modal.find('.modal-title').text(title);
                     modal.find('.modal-genre').text(showgenre);
                     modal.find('.modal-showinfo').text(showinfo);
-                    modal.find('.modal-duration').text(duration);
+                    modal.find('.modal-starttime').text(startsub);
+                    modal.find('.modal-duration').text(durationsub);
                 });
 
                 $('.progress-bar').each(function () {
