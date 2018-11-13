@@ -20,7 +20,7 @@
         @foreach (var item in Model)
         {
             <div class="carousel-item @( first2 ? "active" : "" )">
-                <img src="@Url.Content(item.Image)" class="img-responsive d-block w-100" style="max-height:1000px">
+                <img src="@Url.Content(item.Image)" class="img-responsive d-block w-100" style="max-height:450px">
                 <div class="carousel-caption">
                     <h3>@item.Title</h3>
                     <p>@item.Text</p>

@@ -77,6 +77,23 @@ namespace tabla66.Controllers
             return RedirectToAction("Index","Shows");            
         }
 
+        public ActionResult RemoveFromMyChannels()
+        {
+            int userId = Convert.ToInt32(Session["userId"]);
+            User user = (from data in db.User.Include(s => s.Channel) where data.Id == userId select data).FirstOrDefault();
+
+            string btnClick = Request["RemoveKanal"];
+            int chanId = Convert.ToInt32(btnClick);
+
+            var cnl = (from data in db.Channel where data.Id == chanId select data).FirstOrDefault(); //hittar igen kanalobjektet och sparar till en var
+            if (db.User.FirstOrDefault(u => u.Id == userId).Channel.Contains(cnl))
+            {
+                db.User.FirstOrDefault(u => u.Id == userId).Channel.Remove(cnl); // Så länge kanalen finns i användarens favoritlista så tas den bort              
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Shows");
+        }
+
         public ActionResult Logout()
         {
             Session.Abandon();

@@ -23,4 +23,22 @@
         </div>
     </form>
 </div>
+
+<p>Här kan du klicka på de kanaler du INTE vill följa</p>
+<div class="kanalväljare">
+    <form class="form-vertical" action="@Url.Action("RemoveFromMyChannels")" method="post">
+        <div class="module-body">
+            <div class="control-group">
+                <div class="controls row-fluid">
+                    <button type="submit" class="btn btn-primary pull-right" value="1" name="RemoveKanal">SVT1</button>
+                    <button type="submit" class="btn btn-primary pull-right" value="2" name="RemoveKanal">SVT2</button>
+                    <button type="submit" class="btn btn-primary pull-right" value="3" name="RemoveKanal">TV3</button>
+                    <button type="submit" class="btn btn-primary pull-right" value="4" name="RemoveKanal">TV4</button>
+                    <button type="submit" class="btn btn-primary pull-right" value="5" name="RemoveKanal">Kanal5</button>
+                    <button type="submit" class="btn btn-primary pull-right" value="6" name="RemoveKanal">TV6</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <button type="button" onclick="location.href='@Url.Action("Logout", "Users")'">Logga ut</button>
