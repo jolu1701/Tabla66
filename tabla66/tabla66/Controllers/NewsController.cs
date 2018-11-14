@@ -51,14 +51,14 @@ namespace tabla66.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text,Imagefile,Show_id")] News news)
+        public ActionResult Create([Bind(Include = "Id,Title,Text,Imagefile,Show_id")] News news, HttpPostedFileBase Imagefile)
         {
-            string fileName = Path.GetFileNameWithoutExtension(news.Imagefile.FileName);
-            string extension = Path.GetExtension(news.Imagefile.FileName);
+            string fileName = Path.GetFileNameWithoutExtension(Imagefile.FileName);
+            string extension = Path.GetExtension(Imagefile.FileName);
             fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
             news.Image = "~/Img/" + fileName;
             fileName = Path.Combine(Server.MapPath("~/Img/"), fileName);
-            news.Imagefile.SaveAs(fileName);
+            Imagefile.SaveAs(fileName);
 
             if (ModelState.IsValid)
             {
@@ -93,21 +93,26 @@ namespace tabla66.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text,Imagefile,Show_id")] News news)
+        public ActionResult Edit([Bind(Include = "Id,Title,Image,Text,Show_id")] News news, HttpPostedFileBase Imagefile)
         {
-
-            string file = Path.GetFileNameWithoutExtension(news.Imagefile.FileName);
-            string extension = Path.GetExtension(news.Imagefile.FileName);
-            file = file + DateTime.Now.ToString("yymmssfff") + extension;
-            news.Image = "~/Img/" + file;
-            file = Path.Combine(Server.MapPath("~/Img/"), file);
-
 
             if (ModelState.IsValid)
             {
-                string filepath = Path.Combine(Server.MapPath(news.Image));
-                System.IO.File.Delete(filepath);
-                news.Imagefile.SaveAs(file);
+                if ( Imagefile!=null && Imagefile.ContentLength>0)
+                {
+                    string filepath = Path.Combine(Server.MapPath(news.Image));
+                    System.IO.File.Delete(filepath);
+
+                    string file = Path.GetFileNameWithoutExtension(Imagefile.FileName);
+                    string extension = Path.GetExtension(Imagefile.FileName);
+                    file = file + DateTime.Now.ToString("yymmssfff") + extension;
+                    news.Image = "~/Img/" + file;
+
+                    file = Path.Combine(Server.MapPath("~/Img/"), file);
+                    Imagefile.SaveAs(file);
+                                      
+                }
+               
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
