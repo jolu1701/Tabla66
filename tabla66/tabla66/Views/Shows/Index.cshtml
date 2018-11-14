@@ -10,8 +10,13 @@
 
 <h2>@ViewBag.day</h2>
 
-<p>@Html.ActionLink("Create New", "Create")</p>
+@if (Convert.ToInt32(Session["userLevel"]) == 1)
+{
+    <p>@Html.ActionLink("Create New", "Create")</p>
+}
 
+
+    
 
 @{var channels = Model.Select(m => m.Channel).Distinct();}
 
