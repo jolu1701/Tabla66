@@ -19,18 +19,69 @@
     <div class="carousel-inner">
         @foreach (var item in Model)
         {
-            <div class="carousel-item @( first2 ? "active" : "" )">
-                <img src="@Url.Content(item.Image)" class="img-responsive d-block w-100" style="max-height:265.8px">
+            <div class="carousel-item @( first2 ? "active" : "" )" data-toggle="modal" data-target="#exampleModal" data-title="@item.Show.Title" data-showinfo="@item.Show.Info"
+                            data-duration="@item.Show.Duration" data-start_time="@item.Show.Start_time" data-genre="@item.Show.Genre.Genre1">
+                <img src="@Url.Content(item.Image)" class="img-responsive d-block w-100" style="cursor:pointer; max-height:265.8px">
                 <div class="carousel-caption">
-                    <h3>@item.Title</h3>
-                    <p>@item.Text</p>
+                    <h3 style="cursor:pointer;">@item.Title</h3>
+                    <p style="cursor:pointer;">@item.Text</p>
                 </div>
             </div>
             first2 = false;
         }
-     </div>
- </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-genre"></p>
+                <p class="modal-showinfo"></p>
+            </div>
+            <div class="modal-footer">
+                <p>Start kl: </p><p class="modal-starttime"></p>
+                <p>Längd:</p><p class="modal-duration"> h</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var title = button.data('title'); // Extract info from data-* attributes
+            var start = button.data('start_time');
+            var showinfo = button.data('showinfo');
+            var showgenre = button.data('genre');
+            var duration = button.data('duration');
+            var start2 = String(start);
+            var startsub = start2.substring(10, 16);
+            var duration2 = String(duration);
+            var durationsub = duration2.substring(0, 5);
+
+
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this);
+            modal.find('.modal-title').text(title);
+            modal.find('.modal-genre').text(showgenre);
+            modal.find('.modal-showinfo').text(showinfo);
+            modal.find('.modal-starttime').text(startsub);
+            modal.find('.modal-duration').text(durationsub);
+        });
+    </script>
+
+}
