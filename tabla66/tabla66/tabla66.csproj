@@ -326,6 +326,7 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Shared\_Carousel.cshtml" />
     <Content Include="Views\Shows\ByChannel.cshtml" />
+    <Content Include="Views\Shows\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

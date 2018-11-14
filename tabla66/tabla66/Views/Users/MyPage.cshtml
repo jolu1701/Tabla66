@@ -39,6 +39,15 @@
     }
 </table>
 
+@if (Convert.ToInt32(Session["userLevel"]) == 1)
+{
+<div class="adminknappar">
+    <button type="button" onclick="location.href='@Url.Action("Index", "News")'">Administrera nyheter</button>
+    <button type="button" onclick="location.href='@Url.Action("Admin", "Shows")'">Administrera program</button>    
+</div>
+}
+
+
 
 
 

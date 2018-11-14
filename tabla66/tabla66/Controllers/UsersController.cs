@@ -28,6 +28,7 @@ namespace tabla66.Controllers
                 {
                     Session["userName"] = userLogin.Name;
                     Session["userId"] = userLogin.Id;
+                    Session["userLevel"] = userLogin.Level;
                     return RedirectToAction("MyPage", "Users");
                 }
 

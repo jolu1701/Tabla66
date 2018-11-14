@@ -20,5 +20,19 @@ namespace tabla66.Models
                 return false;
             }
         }
+
+        public static bool IsAdmin()
+        {
+            HttpContext context = HttpContext.Current;
+            if (Convert.ToInt32(context.Session["userLevel"]) == 1)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
     }
 }

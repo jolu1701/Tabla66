@@ -47,6 +47,22 @@ namespace tabla66.Controllers
             
         }
 
+        public ActionResult Admin()
+        {
+            
+            if (ValidateUser.IsAdmin()) //inloggad admin
+            {
+                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time);
+                return View(show);
+            }
+
+            else //anonym användare
+            {
+                return RedirectToAction("Index", "Shows");
+            }
+
+        }
+
         public ActionResult ByGenres(int? reqGenreId, int? daysAhead)
         {
             if (!reqGenreId.HasValue)
@@ -85,9 +101,15 @@ namespace tabla66.Controllers
         // GET: Shows/Create
         public ActionResult Create()
         {
-            ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1");
-            ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1");
-            return View();
+            if (ValidateUser.IsAdmin())
+            {
+
+                ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1");
+                ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1");
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Shows");
         }
 
         // POST: Shows/Create
@@ -97,33 +119,43 @@ namespace tabla66.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Title,Channel_id,Genre_id,Start_time,Duration,Info")] Show show)
         {
-            if (ModelState.IsValid)
+            if (ValidateUser.IsAdmin())
             {
-                db.Show.Add(show);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.Show.Add(show);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
-            ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
-            return View(show);
+                ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
+                ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
+                return View(show);
+            }
+            else
+                return RedirectToAction("Index", "Shows");
         }
 
         // GET: Shows/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (ValidateUser.IsAdmin())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Show show = db.Show.Find(id);
-            if (show == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
-            ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
-            return View(show);
+                    if (id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    Show show = db.Show.Find(id);
+                    if (show == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
+                    ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
+                    return View(show);
+                    }
+            else
+                return RedirectToAction("Index", "Shows");
         }
 
         // POST: Shows/Edit/5
@@ -133,30 +165,40 @@ namespace tabla66.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Channel_id,Genre_id,Start_time,Duration,Info")] Show show)
         {
-            if (ModelState.IsValid)
+            if (ValidateUser.IsAdmin())
             {
-                db.Entry(show).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(show).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
+                ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
+                return View(show);
             }
-            ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
-            ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
-            return View(show);
+            else
+                return RedirectToAction("Index", "Shows");
         }
 
         // GET: Shows/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (ValidateUser.IsAdmin())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Show show = db.Show.Find(id);
+                if (show == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(show);
             }
-            Show show = db.Show.Find(id);
-            if (show == null)
-            {
-                return HttpNotFound();
-            }
-            return View(show);
+            else
+                return RedirectToAction("Index", "Shows");
         }
 
         // POST: Shows/Delete/5
@@ -164,11 +206,16 @@ namespace tabla66.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Show show = db.Show.Find(id);
-            db.Show.Remove(show);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            if (ValidateUser.IsAdmin())
+            {
+                Show show = db.Show.Find(id);
+                db.Show.Remove(show);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index", "Shows");
+    }
 
         protected override void Dispose(bool disposing)
         {
