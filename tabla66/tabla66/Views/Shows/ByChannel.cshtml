@@ -5,6 +5,7 @@
 
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var culture = new System.Globalization.CultureInfo("sv-SV");    
 }
 <h2>@ViewBag.Channel</h2>
 
@@ -13,7 +14,7 @@
     @foreach (var dt in dates)
     {
         <div class="col-md-4 border-left">
-            <h3>@dt.DayOfWeek</h3>
+            <h3>@culture.DateTimeFormat.GetDayName(dt.DayOfWeek)</h3>
             <table class="table table-hover">
 
                 @foreach (var item in Model)
@@ -37,9 +38,7 @@
                                 @tid
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Title)
-
-                                @Html.DisplayFor(modelItem => item.Genre.Genre1)
+                                @Html.DisplayFor(modelItem => item.Title)                                                              
 
                                 @{ if (className == "ongoingshow")
                                     {
