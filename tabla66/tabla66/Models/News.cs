@@ -12,13 +12,16 @@ namespace tabla66.Models
     using System;
     using System.Collections.Generic;
     using System.Web;
-    
+    using System.ComponentModel;
     public partial class News
     {
         public int Id { get; set; }
+        [DisplayName("Titel")]
         public string Title { get; set; }
         public string Text { get; set; }
+        [DisplayName("Bild")]
         public string Image { get; set; }
+        [DisplayName("Show")]
         public int Show_id { get; set; }
     
         public virtual Show Show { get; set; }

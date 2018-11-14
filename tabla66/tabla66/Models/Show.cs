@@ -11,6 +11,7 @@ namespace tabla66.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     
     public partial class Show
     {
@@ -21,10 +22,13 @@ namespace tabla66.Models
         }
     
         public int Id { get; set; }
+        [DisplayName("Titel")]
         public string Title { get; set; }
         public Nullable<int> Channel_id { get; set; }
         public Nullable<int> Genre_id { get; set; }
+        [DisplayName("Visas")]
         public System.DateTime Start_time { get; set; }
+        [DisplayName("Längd")]
         public System.TimeSpan Duration { get; set; }
         public string Info { get; set; }
     

@@ -11,6 +11,7 @@ namespace tabla66.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     
     public partial class Genre
     {
@@ -21,6 +22,7 @@ namespace tabla66.Models
         }
     
         public int Id { get; set; }
+        [DisplayName("Genre")]
         public string Genre1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
