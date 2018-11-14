@@ -50,7 +50,8 @@ namespace tabla66.Controllers
             if (ValidateUser.IsUserValid())
             {                
                 int userId = Convert.ToInt32(Session["userId"]);
-                User user = (from data in db.User where data.Id == userId select data).FirstOrDefault();
+                User user = (from data in db.User where data.Id == userId select data).FirstOrDefault();                
+                ViewBag.AmountOfChannels = db.Channel.Count();
                 return View(user);
             }
 
@@ -74,7 +75,7 @@ namespace tabla66.Controllers
                     db.User.FirstOrDefault(u => u.Id == userId).Channel.Add(cnl); // Så länge kanalen inte finns i användarens favoritlista så sparas den              
                 db.SaveChanges();
                 }
-            return RedirectToAction("Index","Shows");            
+            return RedirectToAction("MyPage","Users");            
         }
 
         public ActionResult RemoveFromMyChannels()
@@ -91,7 +92,24 @@ namespace tabla66.Controllers
                 db.User.FirstOrDefault(u => u.Id == userId).Channel.Remove(cnl); // Så länge kanalen finns i användarens favoritlista så tas den bort              
                 db.SaveChanges();
             }
-            return RedirectToAction("Index", "Shows");
+            return RedirectToAction("MyPage", "Users");
+        }
+
+        public ActionResult UpdateMyChannels()
+        {
+            int userId = Convert.ToInt32(Session["userId"]);
+            User user = (from data in db.User.Include(s => s.Channel) where data.Id == userId select data).FirstOrDefault();
+
+            string btnClick = Request["UpdateKanal"];
+            int chanId = Convert.ToInt32(btnClick);
+
+            var cnl = (from data in db.Channel where data.Id == chanId select data).FirstOrDefault(); //hittar igen nya favoritkanalen och sparar till en var
+            if (!db.User.FirstOrDefault(u => u.Id == userId).Channel.Contains(cnl))            
+                db.User.FirstOrDefault(u => u.Id == userId).Channel.Add(cnl); // Så länge kanalen inte finns i användarens favoritlista så sparas den   
+            else
+                db.User.FirstOrDefault(u => u.Id == userId).Channel.Remove(cnl);
+            db.SaveChanges();
+            return RedirectToAction("MyPage", "Users");
         }
 
         public ActionResult Logout()

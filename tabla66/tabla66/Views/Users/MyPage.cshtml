@@ -5,40 +5,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Välkommen @Model.Name</h2>
-<p>Här kan du markera de kanaler du vill följa</p>
-<div class="kanalväljare">
-    <form class="form-vertical" action="@Url.Action("AddToMyChannels")" method="post">
-        <div class="module-body">
-            <div class="control-group">
-                <div class="controls row-fluid">
-                    <button type="submit" class="btn btn-primary pull-right" value="1" name="AddKanal">SVT1</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="2" name="AddKanal">SVT2</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="3" name="AddKanal">TV3</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="4" name="AddKanal">TV4</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="5" name="AddKanal">Kanal5</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="6" name="AddKanal">TV6</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
 
-<p>Här kan du klicka på de kanaler du INTE vill följa</p>
-<div class="kanalväljare">
-    <form class="form-vertical" action="@Url.Action("RemoveFromMyChannels")" method="post">
-        <div class="module-body">
-            <div class="control-group">
-                <div class="controls row-fluid">
-                    <button type="submit" class="btn btn-primary pull-right" value="1" name="RemoveKanal">SVT1</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="2" name="RemoveKanal">SVT2</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="3" name="RemoveKanal">TV3</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="4" name="RemoveKanal">TV4</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="5" name="RemoveKanal">Kanal5</button>
-                    <button type="submit" class="btn btn-primary pull-right" value="6" name="RemoveKanal">TV6</button>
-                </div>
+
+<h2>Välkommen @Model.Name</h2>
+
+
+
+<form class="form-vertical" action="@Url.Action("UpdateMyChannels")" method="post">
+    <div class="module-body">
+        <div class="control-group">
+            <div class="controls row-fluid">
+                <button type="submit" class="btn btn-primary pull-right" value="1" name="UpdateKanal">SVT1</button>
+                <button type="submit" class="btn btn-primary pull-right" value="2" name="UpdateKanal">SVT2</button>
+                <button type="submit" class="btn btn-primary pull-right" value="3" name="UpdateKanal">TV3</button>
+                <button type="submit" class="btn btn-primary pull-right" value="4" name="UpdateKanal">TV4</button>
+                <button type="submit" class="btn btn-primary pull-right" value="5" name="UpdateKanal">Kanal5</button>
+                <button type="submit" class="btn btn-primary pull-right" value="6" name="UpdateKanal">TV6</button>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</form>
+<p>Min kanallista</p>
+<table>
+    @{
+        foreach (var item in Model.Channel)
+        {
+            <tr>
+                <td>
+                    @item.Channel1.ToString()
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+
+
+
 <button type="button" onclick="location.href='@Url.Action("Logout", "Users")'">Logga ut</button>

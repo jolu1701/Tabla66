@@ -20,6 +20,10 @@ namespace tabla66.Controllers
             if (!daysAhead.HasValue)
                 daysAhead = 0;
 
+            var culture = new System.Globalization.CultureInfo("sv-SV");
+            string dagnamn = culture.DateTimeFormat.GetDayName(DateTime.Now.AddDays(Convert.ToDouble(daysAhead)).DayOfWeek);
+            ViewBag.day = dagnamn;
+
             if (Session["userId"] != null) //inloggad
             {
                 int userId = Convert.ToInt32(Session["userId"]);
@@ -31,7 +35,7 @@ namespace tabla66.Controllers
                 }
                 var show = (from shw in db.Show where kanaler.Contains(shw.Channel.Id) select shw).ToList();
                 show = show.Where(s => s.Start_time.Day == DateTime.Now.Day + daysAhead).ToList();
-                show = show.OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).ToList();
+                show = show.OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).ToList();                
                 return View(show);
             }
 
