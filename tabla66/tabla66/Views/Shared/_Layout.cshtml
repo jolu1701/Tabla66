@@ -43,10 +43,18 @@
                         Vad vill du kolla på?
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Underhållning</a>
-                        <a class="dropdown-item" href="#">Reality-tv</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 1})'>Drama</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 2})'>Action</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 10})'>Humor</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 3})'>Reality</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 4})'>Underhållning</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 6})'>Matlagning</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Barn</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 7})'>Nyheter</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 5})'>Sport</a>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 8})'>Dokumentärer</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href='@Url.Action("ByGenres", "Shows", new {reqGenreId= 9})'>Barn</a>
                     </div>
                 </li>
                 <li class="nav-item">

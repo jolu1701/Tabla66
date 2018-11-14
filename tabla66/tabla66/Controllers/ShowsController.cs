@@ -63,13 +63,12 @@ namespace tabla66.Controllers
 
         }
 
-        public ActionResult ByGenres(int? reqGenreId, int? daysAhead)
+        public ActionResult ByGenres(int? reqGenreId)
         {
             if (!reqGenreId.HasValue)
                 reqGenreId = 1;
-            if (!daysAhead.HasValue)
-                daysAhead = 0;
-            var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Start_time).ThenBy(s => s.Channel_id).Where(s => s.Genre_id==reqGenreId && s.Start_time.Day == DateTime.Now.Day + daysAhead);
+            var show = db.Show.Include(s => s.Channel).OrderBy(s => s.Start_time).ThenBy(s => s.Channel_id).Where(s => s.Genre_id==reqGenreId && s.Start_time >= DateTime.Now);
+            ViewBag.genre = (from g in db.Genre where g.Id == reqGenreId select g.Genre1).FirstOrDefault().ToString();
             return View(show);
         }
 
