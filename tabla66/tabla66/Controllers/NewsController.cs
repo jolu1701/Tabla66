@@ -93,10 +93,21 @@ namespace tabla66.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text,Image,Show_id")] News news)
+        public ActionResult Edit([Bind(Include = "Id,Title,Text,Imagefile,Show_id")] News news)
         {
+
+            string file = Path.GetFileNameWithoutExtension(news.Imagefile.FileName);
+            string extension = Path.GetExtension(news.Imagefile.FileName);
+            file = file + DateTime.Now.ToString("yymmssfff") + extension;
+            news.Image = "~/Img/" + file;
+            file = Path.Combine(Server.MapPath("~/Img/"), file);
+
+
             if (ModelState.IsValid)
             {
+                string filepath = Path.Combine(Server.MapPath(news.Image));
+                System.IO.File.Delete(filepath);
+                news.Imagefile.SaveAs(file);
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -126,6 +137,8 @@ namespace tabla66.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             News news = db.News.Find(id);
+            string filepath = Path.Combine(Server.MapPath(news.Image));
+            System.IO.File.Delete(filepath);
             db.News.Remove(news);
             db.SaveChanges();
             return RedirectToAction("Index");
