@@ -49,9 +49,7 @@
                             data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
                             <td>
 
-                                @{string tid = item.Start_time.ToString("HH:mm");}
-
-                                @tid
+                                @item.Start_time.ToString("HH:mm")
 
                             </td>
                             <td>

@@ -170,7 +170,7 @@ namespace tabla66.Controllers
                 {
                     db.Entry(show).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Admin");
                 }
                 ViewBag.Channel_id = new SelectList(db.Channel, "Id", "Channel1", show.Channel_id);
                 ViewBag.Genre_id = new SelectList(db.Genre, "Id", "Genre1", show.Genre_id);
