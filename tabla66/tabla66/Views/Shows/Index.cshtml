@@ -12,71 +12,83 @@
 
 @if (Convert.ToInt32(Session["userLevel"]) == 1)
 {
-    <p>@Html.ActionLink("Create New", "Create")</p>
+    <p>@Html.ActionLink("Skapa program", "Create")</p>
 }
 
-
+    
     
 
 @{var channels = Model.Select(m => m.Channel).Distinct();}
 
-<div class="row">
+    <div class="row">
 
-    @foreach (var cl in channels)
-    {
-        <div class="col-md-4 border-left">
-            @{string kanalbild = "/Img/kanal" + (cl.Id).ToString() + ".png";}
-            <a href="http://localhost:37863/Shows/ByChannel?reqChannelId=@cl.Id">
-                <img border="0" class="kanallogga" alt="@kanalbild" src="@kanalbild">
-            </a>
+        @if (channels.Count() == 0 && Session["userId"] != null)
+        {
+            <p>Du verkar inte följa några kanaler eller så visas det inga program idag, på <a href="http://localhost:37863/Users/MyPage">Min sida</a> kan du välja de kanaler du vill följa</p>
+        }
 
-            <table class="table table-hover" style="cursor:pointer;">
+        else
+        {
+            foreach (var cl in channels)
+            {
+                <div class="col-md-4 border-left">
+                    @{string kanalbild = "/Img/kanal" + (cl.Id).ToString() + ".png";}
+                    <a href="http://localhost:37863/Shows/ByChannel?reqChannelId=@cl.Id">
+                        <img border="0" class="kanallogga" style="float:left" alt="@kanalbild" src="@kanalbild">
+                    </a>
+                    @if ((Session["userLevel"]) != null)
+                    {<form action="@Url.Action("UpdateMyChannels","Users")" method="post">
+                            <button type="submit" class="btn btn-outline-secondary" style="float:right" value="@cl.Id" name="UpdateKanal">Sluta följa</button>
+                        </form>}
 
-                @foreach (var item in Model)
-                {
-                    var className = "";
-                    if (item.Start_time + item.Duration < DateTime.Now)
-                    { className = "passedshow"; }
-                    else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
-                    { className = "ongoingshow"; }
-                    else
-                    { className = null; }
+                    <table class="table table-hover" style="cursor:pointer;">
+
+                        @foreach (var item in Model)
+                        {
+                            var className = "";
+                            if (item.Start_time + item.Duration < DateTime.Now)
+                            { className = "passedshow"; }
+                            else if (item.Start_time < DateTime.Now && item.Start_time + item.Duration > DateTime.Now)
+                            { className = "ongoingshow"; }
+                            else
+                            { className = null; }
 
 
-                    if (item.Channel_id == cl.Id)
-                    {
-                        <tr class="@className" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
-                            data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
-                            <td>
+                            if (item.Channel_id == cl.Id)
+                            {
+                                <tr class="@className" data-toggle="modal" data-target="#exampleModal" data-title="@item.Title" data-showinfo="@item.Info"
+                                    data-duration="@item.Duration" data-start_time="@item.Start_time" data-genre="@item.Genre.Genre1">
+                                    <td>
 
-                                @item.Start_time.ToString("HH:mm")
+                                        @item.Start_time.ToString("HH:mm")
 
-                            </td>
-                            <td>
+                                    </td>
+                                    <td>
 
-                                @Html.DisplayFor(modelItem => item.Title)
-                                                               
+                                        @Html.DisplayFor(modelItem => item.Title)
 
-                                @{ if (className == "ongoingshow")
-                                    {
-                                        TimeSpan passedTime = (DateTime.Now - item.Start_time);
-                                        double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
-                                        string progProc = "width:" + progProcent.ToString() + "%";
-                                        <div class="progress" style="width:100%;height:5px">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
-                                                 aria-valuemin="0" aria-valuemax="100" style="50%">
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                            </td>
-                        </tr>
-                    }
-                }
-            </table>
-        </div>
-    }
-</div>
+
+                                        @{ if (className == "ongoingshow")
+                                            {
+                                                TimeSpan passedTime = (DateTime.Now - item.Start_time);
+                                                double progProcent = Convert.ToDouble(passedTime.TotalSeconds / item.Duration.TotalSeconds) * 100;
+                                                string progProc = "width:" + progProcent.ToString() + "%";
+                                                <div class="progress" style="width:100%;height:5px">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@Convert.ToInt32(progProcent)"
+                                                         aria-valuemin="0" aria-valuemax="100" style="50%">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        }
+    </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

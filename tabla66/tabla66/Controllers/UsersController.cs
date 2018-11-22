@@ -110,7 +110,7 @@ namespace tabla66.Controllers
             else
                 db.User.FirstOrDefault(u => u.Id == userId).Channel.Remove(cnl);
             db.SaveChanges();
-            return RedirectToAction("MyPage", "Users");
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult Logout()

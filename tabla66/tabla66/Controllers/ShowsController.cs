@@ -20,6 +20,7 @@ namespace tabla66.Controllers
             if (!daysAhead.HasValue)
                 daysAhead = 0;
 
+            DateTime chosenDate = DateTime.Now.AddDays(Convert.ToDouble(daysAhead));
             var culture = new System.Globalization.CultureInfo("sv-SV");
             string dagnamn = culture.DateTimeFormat.GetDayName(DateTime.Now.AddDays(Convert.ToDouble(daysAhead)).DayOfWeek);
             ViewBag.day = dagnamn;
@@ -33,15 +34,14 @@ namespace tabla66.Controllers
                 {
                     kanaler.Add(channel.Id);
                 }
-                var show = (from shw in db.Show where kanaler.Contains(shw.Channel.Id) select shw).ToList();
-                show = show.Where(s => s.Start_time.Day == DateTime.Now.Day + daysAhead).ToList();
-                show = show.OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).ToList();                
+                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => DbFunctions.TruncateTime(s.Start_time) == DbFunctions.TruncateTime(chosenDate) && kanaler.Contains(s.Channel.Id));
+             
                 return View(show);
             }
 
             else //anonym användare
             {
-                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => s.Start_time.Day == DateTime.Now.Day + daysAhead);
+                var show = db.Show.Include(s => s.Channel).Include(s => s.Genre).OrderBy(s => s.Channel_id).ThenBy(s => s.Start_time).Where(s => DbFunctions.TruncateTime(s.Start_time) == DbFunctions.TruncateTime(chosenDate));
                 return View(show);
             }
             
